@@ -1,0 +1,317 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+#container {
+  width: 500px;
+  margin: 50px auto;
+  background-color: rgb(230, 230, 230);
+  display: flex;
+  gap: 50px;
+  padding: 30px;
+}
+.box {
+  width: 100px;
+  height: 100px;
+  background-color: aqua;
+}
+.box1 {
+  background-color: chartreuse;
+  border: 2px solid transparent;
+  animation-name: shape; /* 애니메이션 이름 지정 */
+  animation-duration: 3s; /* 애니메이션 실행 시간 지정 */
+  animation-timing-function: ease-in; /* 애니메이션 실행 시간 지정 */
+  animation-direction: alternate; /* 홀수 번째는 normal 짝수는 reverse */
+  animation-interation-count: infinite; /* 애니메이션 무한 반복 */
+}
+.box2 {
+  background-color: rgb(251, 255, 0);
+  border: 1px solid transparent;
+  animation-name: rotate; 
+  animation-duration: 5s;
+  animation-interation-count: infinite; /* 애니메이션 무한 반복 */
+}
+/* shape 애니메이션 정의 */
+@keyframes shape {
+  from {
+    border: 2px solid transparent;
+}
+  to {
+    border: 4px dotted #333 ;
+    border-radius: 50%;
+}
+}
+/* rotate */
+@keyframes rotate{
+    from{
+        transform: rotate(0deg);
+    }
+    to{
+        transform: rotate(45deg)
+    }
+}
+/* box3 */
+.box3{
+    animation: ani-rotate 1.5s infinite , bg-color 1.5s infinite alternate;
+    background-color: rgb(20, 169, 255);
+}
+@keyframes ani-rotate{
+    from{
+        transform: perspective(120px) /* 원근감 느낌 */ rotateX(0deg) rotateY(0deg); 
+    }
+    50%{
+        transform: perspective(120px) /* 원근감 느낌 */ rotateX(-180deg) rotateY(0deg);
+    }
+    to{
+         transform: perspective(120px) /* 원근감 느낌 */ rotateX(-180deg) rotateY(-180deg)
+    }
+}
+@keyframes bg-color{
+    from{
+        background-color: red;
+    }
+    50%{
+        background-color: aquamarine;
+    }
+    to{
+        background-color: brown;
+    }
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 2rem;
+  background: #002;
+  overflow-x: clip;
+}
+
+.spotlight {
+  --ray-width: 3rem;
+  --ray-opacity: 0.4;
+  --spot-opacity: 0.4;
+  --v-gap: 150px;
+  --duration: 0.5s;
+  --easing: ease-in-out;
+  --color: #f00;
+  --outset: 0px;
+  --spot-anchor: --spot;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  gap: var(--v-gap);
+  anchor-scope: all;
+  
+  &:has(a:active) .super-trouper > * {
+    --outset: -2rem;
+    --delay: 0s;
+    --duration: 0.2s;
+  }
+  
+  > * {
+    grid-column: 1;
+  }
+}
+
+.spots {
+  display: flex;
+  grid-row: 1;
+  grid-column: 1;
+  gap: 8rem;
+}
+
+.spot {
+  width: 0.875rem;
+  aspect-ratio: 1;
+  border-radius: 100%;
+  anchor-name: --spot;
+  position: relative;
+  
+  &:nth-child(2) {
+    anchor-name: --spot-blue;
+  }
+  
+  &:nth-child(3) {
+    anchor-name: --spot-green;
+  }
+}
+
+@keyframes move {
+  0%, 100% { translate: -80px 0px;}
+  50% { translate: 80px 0px;}
+}
+
+.super-trouper {
+  grid-row: 1 / 3;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+.ray {
+  height: 100%;
+  mask-image: linear-gradient(0deg, #0000 0.5rem, #000 6rem);
+  
+  .l-l,
+  .l-r,
+  .r-l,
+  .r-r {
+    --angle: atan(100cqi / 100cqb);    
+    container-type: size;    
+    position: absolute;
+    mix-blend-mode: screen;
+    
+    left: calc(anchor(--link left) - var(--outset));
+    right: anchor(var(--spot-anchor) center);
+    
+    top: anchor(var(--spot-anchor) center);
+    bottom: calc(anchor(--link bottom) - 1rem);
+    
+    transition: left var(--duration) var(--delay, 0s), right var(--duration) var(--delay, 0s);
+    transition-timing-function: var(--easing);
+    
+    &::after {
+      --gradient-angle: atan(var(--ray-width) / 100cqb);
+      content: "";
+      opacity: calc(var(--ray-opacity) * sign(max(0px, 1cqi)));
+      width: max(5rem, 100cqi);
+      height: calc(hypot(100cqi, 100cqb) + 15rem);
+      background-image: conic-gradient(at 0% 0%, transparent calc(180deg - var(--gradient-angle)), var(--color) 180deg);
+      position: absolute;
+      left: 100%;
+      top: 0;
+      rotate: var(--angle);
+      transform-origin: left top;
+      z-index: 4;
+      filter: blur(1px);
+    }
+  }
+  
+  .l-r {
+    left: anchor(var(--spot-anchor) center);
+    right: calc(anchor(--link left) + var(--outset));
+    
+    &:after {
+      rotate: calc(var(--angle) * -1);
+      left: 0;
+    }
+  }
+  
+  .r-l,
+  .r-r {
+    left: calc(anchor(--link right) + var(--outset));
+    right: anchor(var(--spot-anchor) center);
+    
+    &::after {
+      background-image: conic-gradient(at 100% 0%, var(--color) 180deg, transparent calc(180deg + var(--gradient-angle)));      
+      left: auto;
+      right: 0;
+      transform-origin: right top;
+    }
+  }
+  
+  .r-r {
+    left: anchor(var(--spot-anchor) center);
+    right: calc(anchor(--link right) - var(--outset));
+    
+    &:after {
+      rotate: calc(var(--angle) * -1);
+      right: 100%;
+    }
+  }
+
+}
+
+.light {
+  position: absolute;
+  left: calc(anchor(--link left) - var(--outset));
+  right: calc(anchor(--link right) - var(--outset));
+  bottom: calc(anchor(--link bottom) - 1.5rem);
+  height: 1rem;
+  background: rgb(from var(--color) r g b / 0.3);
+  border: 1px solid var(--color);
+  opacity: var(--spot-opacity);
+  border-radius: 100%;
+  transition: all var(--duration) var(--delay, 0s);
+  transition-timing-function: var(--easing);
+  filter: blur(2px);
+  mask-image: linear-gradient(#0001, #000);
+}
+
+nav {
+  grid-row: 2;
+  padding-block: 2rem;
+  padding-inline: 4rem;
+  position: relative;
+  
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    inset: 0;
+    inset-inline: -2rem;
+    background: linear-gradient(#fff0 50%, rgb(255 255 255 / 0.15));
+    border-bottom: 1px solid rgb(255 255 255 / 0.3);
+    mask-image: linear-gradient(90deg, #0000, #000 20%, 80%, #0000 100%);
+  }
+  
+  &::after {
+    background: linear-gradient(#001, #0000);
+    top: auto;
+    bottom: -5rem;
+    height: 5rem;
+    border: none;
+    opacity: 0.6;
+  }
+  
+  ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 0;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+    
+    &:has(a:hover, a:focus-visible) a:not(:hover, :focus-visible) {
+      opacity: 0.3;
+    }
+  }
+  
+  a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.375rem;
+    display: block;
+    padding-inline: 1rem;
+    position: relative;
+    transition-property: opacity, text-shadow;
+    transition-duration: calc(var(--duration) * 1.5);
+    text-transform: uppercase;
+    font-weight: bold;
+    letter-spacing: 0.1em;
+    text-align: center;
+    
+    &:hover,
+    &:focus-visible {
+      anchor-name: --link;
+      text-shadow: 
+        0 0 0.75rem #0ff,
+        0 0 1.25rem #f0f;
+    }
+    
+    &:focus-visible {
+      outline: 2px dotted #fff;
+      outline-offset: 5px;
+      border-radius: 999rem;
+    }
+
+  }
+  
+  &:not(:has(a:hover)) a[aria-current="page"] {
+    anchor-name: --link;
+  }
+}

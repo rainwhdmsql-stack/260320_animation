@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>애니메이션</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div class="box box1"></div>
+      <div class="box box2"></div>
+      <div class="box box3"></div>
+    </div>
+    <!-- 코드펜 예제 적용 -->
+    <div class="spotlight">
+      <div class="spots">
+        <div class="spot"></div>
+        <div class="spot"></div>
+        <div class="spot"></div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#" aria-current="page">Home</a></li>
+          <li><a href="#">About us</a></li>
+          <li><a href="#">Products</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="super-trouper" style="--color: #ff0">
+        <div class="ray">
+          <div class="l-l"></div>
+          <div class="l-r"></div>
+          <div class="r-l"></div>
+          <div class="r-r"></div>
+        </div>
+        <div class="light"></div>
+      </div>
+
+      <div
+        class="super-trouper"
+        style="
+          --color: #0ff;
+          --spot-anchor: --spot-blue;
+          --duration: 0.7s;
+          --delay: 0.4s;
+        "
+      >
+        <div class="ray">
+          <div class="l-l"></div>
+          <div class="l-r"></div>
+          <div class="r-l"></div>
+          <div class="r-r"></div>
+        </div>
+        <div class="light"></div>
+      </div>
+
+      <div
+        class="super-trouper"
+        style="
+          --color: #f0f;
+          --spot-anchor: --spot-green;
+          --duration: 0.6s;
+          --delay: 0.2s;
+        "
+      >
+        <div class="ray">
+          <div class="l-l"></div>
+          <div class="l-r"></div>
+          <div class="r-l"></div>
+          <div class="r-r"></div>
+        </div>
+        <div class="light"></div>
+      </div>
+    </div>
+    
+  </body>
+</html>
